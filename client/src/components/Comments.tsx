@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
+import {handleDelete} from "./external"
 
 interface IComment {
   _id: string;
@@ -53,25 +54,25 @@ function Comments({ user, postId, comments, setComments }: IProps) {
     setEditingCommentId(comment._id);
   };
 
-  const handleDelete = (deleteComment: IComment): void => {
-    axios
-      .delete(`/api/posts/${postId}/comments/${deleteComment._id}/delete`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `bearer ${
-            JSON.parse(localStorage.getItem("user")!).token
-          }`,
-        },
-      })
-      .then(() => {
-        setComments((prevState) => {
-          return prevState.filter(
-            (comment: IComment) => comment._id !== deleteComment._id
-          );
-        });
-      })
-      .catch((err) => console.log(err.response.data));
-  };
+  // const handleDelete = (deleteComment: IComment): void => {
+  //   axios
+  //     .delete(`/api/posts/${postId}/comments/${deleteComment._id}/delete`, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `bearer ${
+  //           JSON.parse(localStorage.getItem("user")!).token
+  //         }`,
+  //       },
+  //     })
+  //     .then(() => {
+  //       setComments((prevState) => {
+  //         return prevState.filter(
+  //           (comment: IComment) => comment._id !== deleteComment._id
+  //         );
+  //       });
+  //     })
+  //     .catch((err) => console.log(err.response.data));
+  // };
 
   useEffect(() => {
     axios
@@ -86,7 +87,7 @@ function Comments({ user, postId, comments, setComments }: IProps) {
     <>
       <div>
         {comments
-          .slice(0)
+          .slice()
           .reverse()
           .map((comment: IComment, i: number) => {
             return (
@@ -115,7 +116,7 @@ function Comments({ user, postId, comments, setComments }: IProps) {
                   }
                 >
                   {/* Update text form */}
-                  <form onSubmit={() => handleUpdate(comment)}>
+                  <form onSubmit={() => handleUpdate(comment)} data-testid="login-form">
                     <label htmlFor="text">Text</label>
                     <br />
                     <input
@@ -167,7 +168,7 @@ function Comments({ user, postId, comments, setComments }: IProps) {
                   >
                     <BiEdit />
                   </button>
-                  <button
+                  <button data-testid = 'delete-button'
                     onClick={() => handleDelete(comment)}
                     hidden={isEditing ? true : false}
                     className="px-2 py-1 mt-2 rounded border border-red-600 text-red-600 duration-300 hover:text-white hover:bg-red-600"

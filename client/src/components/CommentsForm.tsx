@@ -15,6 +15,7 @@ interface IProps {
   postId: string;
   comments: IComment[];
   setComments: React.Dispatch<React.SetStateAction<IComment[]>>;
+  
 }
 
 function CommentsForm({ user, postId, comments, setComments }: IProps) {
@@ -22,7 +23,10 @@ function CommentsForm({ user, postId, comments, setComments }: IProps) {
   const [username, setUsername] = useState<string>("");
   const [text, setText] = useState<string>("");
 
+
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+
     e.preventDefault();
     axios
       .post(`/api/posts/${postId}/comments`, { username, text, postId })
@@ -42,13 +46,15 @@ function CommentsForm({ user, postId, comments, setComments }: IProps) {
   }, [user]);
 
   return (
-    <form ref={formRef} onSubmit={(e) => handleSubmit(e)}>
+    <form ref={formRef} onSubmit={(e) => handleSubmit(e)} >
+      
       {/* Username  */}
       <label htmlFor="username">Username</label>
       <input
         type="text"
         name="username"
         placeholder="Username"
+        data-testid="comments-username"
         defaultValue={
           user ? JSON.parse(localStorage.getItem("user")!).user.username : ""
         }
@@ -62,7 +68,7 @@ function CommentsForm({ user, postId, comments, setComments }: IProps) {
 
       {/* Text */}
       <label htmlFor="text">Text</label>
-      <input
+      <input data-testid = 'text-id'
         type="text"
         name="text"
         placeholder="Text"

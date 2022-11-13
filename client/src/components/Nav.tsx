@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import {handleLogout} from './_tests_/mocks/navMockedFunc'
 
 interface IProps {
   user: any;
@@ -10,10 +11,11 @@ function Nav({ user, setUser }: IProps) {
   const [isOpenHamburgerMenu, setIsOpenHamburgerMenu] =
     useState<boolean>(false);
 
-  const handleLogout = (): void => {
-    localStorage.removeItem("user");
-    setUser(undefined);
-  };
+  // The function below called handleLogout is exported in navMockedFunc.tsx and commented here only for testing
+  // const handleLogout = (): void => {
+  //   localStorage.removeItem("user");
+  //   setUser(undefined);
+  // };
 
   return (
     <div className="shadow-sm w-full sticky top-0 left-0">
@@ -39,22 +41,22 @@ function Nav({ user, setUser }: IProps) {
             isOpenHamburgerMenu ? "top-[60px] " : "top-[-200px]"
           }`}
         >
-          <Link to="/login" hidden={user ? true : false}>
+          <Link to="/login" hidden={user ? true : false} data-testid="login-link">
             <li className="my-4 px-2 hover:text-purple-600">Log in</li>
           </Link>
-          <Link to="/signup" hidden={user ? true : false}>
+          <Link to="/signup" hidden={user ? true : false} data-testid="signup-link">
             <li className="my-4 px-2 hover:text-purple-600">Sign up</li>
           </Link>
-          <Link to="/" hidden={user ? false : true}>
+          <Link to="/" hidden={user ? false : true} data-testid="home-link">
             <li className="my-4 px-2 hover:text-purple-600">Home</li>
           </Link>
-          <Link to="/dashboard" hidden={user ? false : true}>
+          <Link to="/dashboard" hidden={user ? false : true} data-testid="dashboard-link">
             <li className="my-4 px-2 hover:text-purple-600">Dashboard</li>
           </Link>
-          <Link to="/create" hidden={user ? false : true}>
+          <Link to="/create" hidden={user ? false : true} data-testid="create-link">
             <li className="my-4 px-2 hover:text-purple-600">Create</li>
           </Link>
-          <Link to="/" hidden={user ? false : true}>
+          <Link to="/" hidden={user ? false : true} data-testid="logout-link">
             <li
               onClick={handleLogout}
               className="my-4 px-2 hover:text-purple-600"

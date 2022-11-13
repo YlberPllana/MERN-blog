@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {handleSubmit} from './exportedFunc'
 
 function SignUp() {
   const navigate = useNavigate();
@@ -8,19 +9,20 @@ function SignUp() {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    axios
-      .post("/api/users/signup", {
-        username,
-        password,
-        confirmPassword,
-      })
-      .then(() => {
-        navigate("/login");
-      })
-      .catch((err) => console.log(err));
-  };
+  // Commented and exported only for testing
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  //   e.preventDefault();
+  //   axios
+  //     .post("/api/users/signup", {
+  //       username,
+  //       password,
+  //       confirmPassword,
+  //     })
+  //     .then(() => {
+  //       navigate("/login");
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   useEffect(() => {
     document.title = "Sign up | MERN Blog";

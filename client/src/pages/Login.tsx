@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {handleSubmit} from '../api/api'
 
 interface IProps {
   setUser: React.Dispatch<any>;
@@ -11,26 +12,26 @@ function Login({ setUser }: IProps) {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    axios
-      .post("/api/users/login", {
-        username,
-        password,
-      })
-      .then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.data));
-        setUser(res.data.user);
-        navigate("/");
-      })
-      .catch((err) => {
-        if (err.response.status === 401) {
-          navigate("/login");
-        } else {
-          console.error(err);
-        }
-      });
-  };
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  //   e.preventDefault();
+  //   axios
+  //     .post("/api/users/login", {
+  //       username,
+  //       password,
+  //     })
+  //     .then((res) => {
+  //       localStorage.setItem("user", JSON.stringify(res.data));
+  //       setUser(res.data.user);
+  //       navigate("/");
+  //     })
+  //     .catch((err) => {
+  //       if (err.response.status === 401) {
+  //         navigate("/login");
+  //       } else {
+  //         console.error(err);
+  //       }
+  //     });
+  // };
 
   useEffect(() => {
     document.title = "Login | MERN Blog";
@@ -58,6 +59,7 @@ function Login({ setUser }: IProps) {
               type="text"
               name="username"
               placeholder="Username"
+              data-testid="username"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setUsername(e.target.value)
               }
@@ -71,6 +73,7 @@ function Login({ setUser }: IProps) {
               type="password"
               name="password"
               placeholder="Password"
+              data-testid="password"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPassword(e.target.value)
               }
@@ -81,6 +84,7 @@ function Login({ setUser }: IProps) {
           <div>
             <button
               type="submit"
+              data-testid="submit"
               className="px-8 py-1 mt-2 rounded border-2 border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
             >
               Login
